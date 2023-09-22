@@ -1,31 +1,28 @@
 {
   "format": 1,
   "restore": {
-    "D:\\ITPlus\\BTVN_Buoi4\\BTVN_Buoi4.csproj": {}
+    "D:\\Hoc\\github\\fileclone\\BTVN_Buoi4\\BTVN_Buoi4.csproj": {}
   },
   "projects": {
-    "D:\\ITPlus\\BTVN_Buoi4\\BTVN_Buoi4.csproj": {
+    "D:\\Hoc\\github\\fileclone\\BTVN_Buoi4\\BTVN_Buoi4.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\ITPlus\\BTVN_Buoi4\\BTVN_Buoi4.csproj",
+        "projectUniqueName": "D:\\Hoc\\github\\fileclone\\BTVN_Buoi4\\BTVN_Buoi4.csproj",
         "projectName": "BTVN_Buoi4",
-        "projectPath": "D:\\ITPlus\\BTVN_Buoi4\\BTVN_Buoi4.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\ITPlus\\BTVN_Buoi4\\obj\\",
+        "projectPath": "D:\\Hoc\\github\\fileclone\\BTVN_Buoi4\\BTVN_Buoi4.csproj",
+        "packagesPath": "C:\\Users\\NC\\.nuget\\packages\\",
+        "outputPath": "D:\\Hoc\\github\\fileclone\\BTVN_Buoi4\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\NC\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {}
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net7.0": {
