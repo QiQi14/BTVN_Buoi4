@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\ITPlus\\BTVN_Buoi4\\BTVN_Buoi4.csproj": {}
+    "C:\\Users\\Admin\\C# Learning\\ConsoleApp1\\BTVN_Buoi4\\BTVN_Buoi4.csproj": {}
   },
   "projects": {
-    "D:\\ITPlus\\BTVN_Buoi4\\BTVN_Buoi4.csproj": {
+    "C:\\Users\\Admin\\C# Learning\\ConsoleApp1\\BTVN_Buoi4\\BTVN_Buoi4.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\ITPlus\\BTVN_Buoi4\\BTVN_Buoi4.csproj",
+        "projectUniqueName": "C:\\Users\\Admin\\C# Learning\\ConsoleApp1\\BTVN_Buoi4\\BTVN_Buoi4.csproj",
         "projectName": "BTVN_Buoi4",
-        "projectPath": "D:\\ITPlus\\BTVN_Buoi4\\BTVN_Buoi4.csproj",
+        "projectPath": "C:\\Users\\Admin\\C# Learning\\ConsoleApp1\\BTVN_Buoi4\\BTVN_Buoi4.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\ITPlus\\BTVN_Buoi4\\obj\\",
+        "outputPath": "C:\\Users\\Admin\\C# Learning\\ConsoleApp1\\BTVN_Buoi4\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -25,7 +25,9 @@
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {}
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net7.0": {
