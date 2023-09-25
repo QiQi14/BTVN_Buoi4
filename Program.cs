@@ -1,274 +1,515 @@
-﻿using System;
-using System.Net;
-using System.Text.RegularExpressions;
-
-namespace MyApp // Note: actual namespace depends on the project name.
+﻿using System.Reflection.PortableExecutable;
+using System.Runtime.CompilerServices;
+namespace BTVN_Buoi4
 {
-    internal class Program
+    class Program
     {
-        static List<User> users;
-
-        static List<Info> infos;
+        private static List<User> listUser;
 
         static void Main(string[] args)
         {
-            users = new List<User>();
-            //
-            infos = new List<Info>();
-            //
-            OptionUI();
+            //Viết chương trình cho phép người dùng đăng nhập, đăng xuất và đăng ký tài khoản,
+            //sau khi đăng ký thành công thì cho phép người dùng nhập / xem / xóa / sửa
+            //thông tin học sinh với các thuộc tính: tên, lớp, nơi sinh, ngày sinh và điểm.
+            //Lưu ý: Chương trình chỉ thoát khi người dùng chọn chức năng thoát
+            listUser = new List<User>();
+            simpleUI();
         }
-
-        private static void OptionUIInfo()
+        private static bool isLogin = false;
+        private static void simpleUI()
         {
-            Console.WriteLine("1. Nhap Thong Tin ");
-            Console.WriteLine("2. Xem Thong Tin ");
-            Console.WriteLine("3. Xoa Thong Tin ");
-            Console.WriteLine("4. Sua Thong Tin ");
-            Console.WriteLine("5. Dang Xuat ");
-            int chon = 0;
-            do
+            Console.Clear();
+            Console.WriteLine("Chuong trinh dang ky/dang nhap, moi ban chon chuc nang");
+            if (isLogin)
             {
-                chon = int.Parse(Console.ReadLine());
-                switch (chon)
+                Console.WriteLine("1. Xem danh sach hoc sinh");
+                Console.WriteLine("2. Dang xuat");
+                Console.WriteLine("3. Thoat");
+                int option = 0;
+                while (true)
                 {
-                    case 1:
-                        NhapThongTin();
-                        break;
-                    case 2:
-                        XemThongTin();
-                        break;
-                    case 3:
-                        XoaThongTin();
-                        break;
-                    case 4:
-                        SuaThongTin();
-                        break;
-                    case 5:
-                        QuayLai();
-                        break;
-                    default:
-                        Console.WriteLine("Not default");
-                        break;
-                }
-            } while (chon != 5);
-        }
-
-        private static void SuaThongTin()
-        {
-            Console.WriteLine("Nhap Ten Nguoi Dung Can Sua ");
-            string ten = Console.ReadLine();
-
-            Console.WriteLine("Nhap Lop Hoc: ");
-            string lop = Console.ReadLine();
-            Console.WriteLine("Nhap Noi Sinh: ");
-            string noisinh = Console.ReadLine();
-            Console.WriteLine("Nhap Ngay Sinh: ");
-            string ngaysinh = Console.ReadLine();
-            Console.WriteLine("Nhap Diem: ");
-            double diem = double.Parse(Console.ReadLine());
-
-            int dem = 0;
-            foreach (Info info in infos)
-            {
-                if (ten == info.Name)
-                {
-
-                    info.Lop = lop;
-                    if (lop == null)
+                    option = Convert.ToInt32(Console.ReadLine());
+                    if (option == 1)
                     {
-                        info.Lop = info.Lop + lop;
-                    }
 
-                    info.NoiSinh = noisinh;
-                    if (noisinh == null)
-                    {
-                        info.NoiSinh = info.NoiSinh + noisinh;
+                        if (ManHinhDanhSachHS.ListStudent.Count > 0)
+                        {
+                            Console.WriteLine("Danh sach hoc sinh");
+                            foreach (Student student in ManHinhDanhSachHS.ListStudent)
+                            {
+                                Console.Write(student.Ten + " - ");
+                                Console.Write(student.Lop + " - ");
+                                Console.Write(student.NoiSinh + " - ");
+                                Console.Write(student.Namsinh + " - ");
+                                Console.WriteLine(student.Grade);
+                            }
+
+                        }
+                        else
+                        {
+                            Console.WriteLine("Chua co hoc sinh nao");
+                            Task.Delay(1000).Wait();
+                            danhSachHocSinhUI();
+                            break;
+                        }
+
                     }
-                    info.NgaySinh = ngaysinh;
-                    if (ngaysinh == null)
+                    else if (option == 2)
                     {
-                        info.NgaySinh = info.NgaySinh + ngaysinh;
+                        Console.WriteLine("Ban Da Dang Xuat Thanh Cong");
+                        Task.Delay(1000).Wait();
+                        isLogin = false;
+                        simpleUI();
+                        break;
                     }
-                    info.Diem = diem;
-                    if (diem == null)
-                    {
-                        info.Diem = info.Diem + diem;
-                    }
-                    infos.Add(info);
-                    OptionUIInfo();
-                }
-                {
-                    dem = 0;
                 }
             }
-            if (dem == 0)
+            else
             {
-                Console.WriteLine("Ten Ban Nhap Chua Dung");
-                OptionUIInfo();
-            }
-        }
-
-        private static void QuayLai()
-        {
-            OptionUI();
-        }
-
-        private static void XoaThongTin()
-        {
-            Console.WriteLine("Xoa Thong Tin ");
-            foreach (Info info in infos)
-            {
-                Console.WriteLine("Danh Sach Ten Nguoi Dung");
-                Console.WriteLine("" + info.Name);
-            }
-            int dem = 0;
-            Console.WriteLine("Nhap Ten Nguoi Dung Can Xoa: ");
-            string name = Console.ReadLine();
-            foreach (Info info1 in infos)
-            {
-                if (name == info1.Name)
+                string path = Environment.CurrentDirectory;
+                string fileName = "accounts.txt";
+                using (var sr = new StreamReader(path + "/" + fileName))
                 {
-                    infos.Remove(info1);
-                    Console.WriteLine("Thong Tin Ten " + info1.Name + " Da duoc xoa ");
-                    dem = 1;
-                    OptionUIInfo();
+                    Console.WriteLine("File da duoc doc");
+                    //Console.WriteLine(sr.ReadToEnd());
+                    while (!sr.EndOfStream)
+                    {
+                        string line = sr.ReadLine();
+
+                        // Xử lý dữ liệu từ từng dòng
+                        Console.WriteLine(line);
+                    }
+                }
+                Console.WriteLine("1. Dang ky");
+                Console.WriteLine("2. Dang nhap");
+                Console.WriteLine("3. Thoat");
+                int option = 0;
+                while (true)
+                {
+                    option = Convert.ToInt32(Console.ReadLine());
+                    if (option == 1)
+                    {
+                        registerUI();
+                        Console.WriteLine("Dang Ky Thanh Cong");
+                        Task.Delay(1000).Wait();
+                        simpleUI();
+                    }
+                    else if (option == 2)
+                    {
+                        string path1 = Environment.CurrentDirectory;
+                        string fileName1 = "accounts.txt";
+                        using (var sr = new StreamReader(path + "/" + fileName))
+                        {
+
+                            if (sr != null)
+                            {
+                                LoginUI();
+                            }
+                            else
+                            {
+                                Console.WriteLine("Chua co user nao trong he thong");
+                                Task.Delay(1000).Wait();
+                                simpleUI();
+                            }
+                        }
+
+                    }
+                    else if (option == 3)
+                    {
+                        Console.WriteLine("Ban Da Thoat Chuong Trinh Thanh Cong");
+                        Task.Delay(1000).Wait();
+                        break;
+                    }
+                }
+            }
+        }
+
+        private static void danhSachHocSinhUI()
+        {
+            Console.Clear();
+            int option = 0;
+            Console.WriteLine("1. Them hoc sinh");
+            Console.WriteLine("2. Xoa hoc sinh theo ten");
+            Console.WriteLine("3. Sua hoc sinh theo ten");
+            Console.WriteLine("4. Quay Lai");
+            string path = Environment.CurrentDirectory;
+            string fileName = "students.txt";
+            using (var sr = new StreamReader(path + "/" + fileName))
+            {
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    string[] parts = line.Split(',');
+
+                    if (parts[0] != null)
+                    {
+                        Console.WriteLine("Danh sach hoc sinh");
+                        /*foreach (Student student in ManHinhDanhSachHS.ListStudent)
+                        {
+                            Console.Write(student.Ten + " - ");
+                            Console.WriteLine(student.Grade);
+                        }*/
+                        Console.WriteLine(parts[0] + "-" + parts[1] + "-" + parts[2] + "-" + parts[3] + "-" + parts[4]);
+
+                        //writeFileAsyncInfo();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Chua co hoc sinh nao");
+                    }
+
+                }
+            }
+
+
+            while (true)
+            {
+                option = Convert.ToInt32(Console.ReadLine());
+                if (option == 1)
+                {
+                    Console.WriteLine("Danh sach hoc sinh");
+
+                    Student student = inputStudent();
+                    ManHinhDanhSachHS.addStudent(student);
+                    writeFileAsyncInfo();
+                    Task.Delay(1000).Wait();
+                    readFileInfo();
+                    danhSachHocSinhUI();
+
+                }
+                else if (option == 2)
+                {
+                    Console.WriteLine("Nhap ten hs muon xoa: ");
+                    string ten = Console.ReadLine();
+
+                    bool ketQua = ManHinhDanhSachHS.removeStudent(ten);
+                    if (ketQua)
+                    {
+                        Console.WriteLine("Xoa thanh cong");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Khong ton tai hoc sinh nay");
+                    }
+                    Task.Delay(1000).Wait();
+                    danhSachHocSinhUI();
+                }
+                else if (option == 3)
+                {
+                    Console.WriteLine("Nhap ten hs muon sua: ");
+                    string ten = Console.ReadLine();
+
+                    string path1 = Environment.CurrentDirectory;
+                    string fileName1 = "students.txt";
+                    using (var sr = new StreamReader(path1 + "/" + fileName1))
+                    {
+                        string line;
+                        while ((line = sr.ReadLine()) != null)
+                        {
+                            string[] parts = line.Split(',');
+
+                            if (ten == parts[0])
+                            {
+                                inputStudent();
+                                Console.WriteLine("Sua thanh cong");
+                                writeFileAsyncInfo();
+                                danhSachHocSinhUI();
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Khong ton tai hoc sinh nay");
+                            }
+                            Task.Delay(1000).Wait();
+                            danhSachHocSinhUI();
+
+                        }
+                    }
+
+                }
+                else if (option == 4)
+                {
+                    simpleUI();
                     break;
-                }
-            }
-            if (dem == 0)
-            {
-                Console.WriteLine("Ban Nhap Ten Khong co trong du lieu");
-            }
-        }
-
-        private static void XemThongTin()
-        {
-            Console.WriteLine("Xem Thong Tin ");
-            foreach (Info info in infos)
-            {
-                if (info.Name == null)
-                {
-                    Console.WriteLine("Ban Chua Nhap Thong Tin ");
                 }
                 else
                 {
-                    Console.WriteLine("Nguoi Dung " + info.Name + " co thong tin ");
-                    Console.WriteLine("Ten: " + info.Name);
-                    Console.WriteLine("Lop: " + info.Lop);
-                    Console.WriteLine("Noi Sinh: " + info.NoiSinh);
-                    Console.WriteLine("Ngay Sinh: " + info.NgaySinh);
-                    Console.WriteLine("Diem: " + info.Diem);
-                    Console.WriteLine("--------------");
+                    Console.WriteLine("Khong co tinh nang nay");
+                    simpleUI();
+                }
+            }
+        }
+
+        private static Student inputStudent()
+        {
+            Student student = new Student();
+            Console.WriteLine("Nhap ten hs: ");
+            student.Ten = Console.ReadLine();
+
+            Console.WriteLine("Nhap lop hs: ");
+            student.Lop = Console.ReadLine();
+            Console.WriteLine("Nhap noi sinh hs: ");
+            student.NoiSinh = Console.ReadLine();
+            Console.WriteLine("Nhap nam sinh hs: ");
+            student.Namsinh = Console.ReadLine();
+            Console.WriteLine("Nhap diem hs: ");
+
+            while (true)
+            {
+                try
+                {
+                    student.Grade = (float)Convert.ToDecimal(Console.ReadLine());
                     break;
                 }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Diem phai la so");
+                }
             }
-            OptionUIInfo();
+            return student;
         }
 
-        private static void NhapThongTin()
-        {
-            Info info = new Info();
-            Console.WriteLine("Nhap Thong Tin ");
-
-            Console.WriteLine("Nhap Ten: ");
-            info.Name = Console.ReadLine();
-            Console.WriteLine("Nhap Lop Hoc: ");
-            info.Lop = Console.ReadLine();
-            Console.WriteLine("Nhap Noi Sinh: ");
-            info.NoiSinh = Console.ReadLine();
-            Console.WriteLine("Nhap Ngay Sinh: ");
-            info.NgaySinh = Console.ReadLine();
-            Console.WriteLine("Nhap Diem: ");
-            info.Diem = double.Parse(Console.ReadLine());
-            infos.Add(info);
-            OptionUIInfo();
-        }
-
-        private static void Register()
+        private static void registerUI()
         {
             User user = new User();
-            Console.WriteLine("Nhap Tai Khoan ");
-            user.UserName = Console.ReadLine();
-            Console.WriteLine("Nhap Mat Khau ");
+            Console.WriteLine("Vui long nhap username: ");
+            user.Username = Console.ReadLine();
+            Console.WriteLine("Vuu long nhap password: ");
             user.Password = Console.ReadLine();
-
-            users.Add(user);
-
+            listUser.Add(user); // 2 user vua nhap
+            writeFileAsync();
         }
 
-        private static void Logout()
+        private static void LoginUI()
         {
-            Console.WriteLine("Ban Da Thoat Chuong Trinh");
-        }
-
-        private static void OptionUI()
-        {
-            Console.WriteLine("1. Dang Ky ");
-            Console.WriteLine("2. Dang Nhap ");
-            Console.WriteLine("3. Thoat ");
-            int chon = 0;
-            do
+            Console.WriteLine("Danh Sach Tai Khoan");
+            readFile();
+            Console.WriteLine("Vui long nhap username: ");
+            string n = Console.ReadLine();
+            Console.WriteLine("Vui long nhap password: ");
+            string pw = Console.ReadLine();
+            string path = Environment.CurrentDirectory;
+            string fileName = "accounts.txt";
+            using (var sr = new StreamReader(path + "/" + fileName))
             {
-                chon = int.Parse(Console.ReadLine());
-                switch (chon)
+                string line;
+                while ((line = sr.ReadLine()) != null)
                 {
-                    case 1:
-                        Register();
-                        OptionUI();
-                        break;
-                    case 2:
-                        Login();
-                        break;
-                    case 3:
-                        Logout();
-                        break;
-                    default:
-                        Console.WriteLine("Not default");
-                        break;
-                }
-            } while (chon != 3);
-        }
+                    string[] parts = line.Split(',');
 
-        private static void Login()
-        {
-            Console.WriteLine("Nhap Tai Khoan ");
-            string username = Console.ReadLine();
+                    if (parts[0] == n && parts[1] == pw)
+                    {
+                        isLogin = true;
+                        Console.WriteLine("Dang nhap thanh cong");
+                        simpleUI();
 
-            Console.WriteLine("Nhap Mat Khau ");
-            string password = Console.ReadLine();
-            int dem = 0;
-            foreach (User user in users)
-            {
-                if (username == user.UserName && password == user.Password)
-                {
-                    dem = 1;
+                    }
                 }
             }
-            if (dem == 1)
+
+            Console.WriteLine("Dang nhap that bai");
+        }
+        private static void readFile()
+        {
+            try
             {
-                Console.WriteLine("Ban Da Dang Nhap");
-                OptionUIInfo();
+                string path = Environment.CurrentDirectory;
+                string fileName = "accounts.txt";
+                using (var sr = new StreamReader(path + "/" + fileName))
+                {
+                    Console.WriteLine("File da duoc doc");
+                    //Console.WriteLine(sr.ReadToEnd());
+                    while (!sr.EndOfStream)
+                    {
+                        string line = sr.ReadLine();
+
+                        Console.WriteLine(line);
+                    }
+                }
             }
-            else if (dem == 0)
+            catch (IOException e)
             {
-                Console.WriteLine("Ban Da Dang Nhap That Bai");
-                OptionUI();
+                Console.WriteLine("The file could not be read:");
+                Console.WriteLine(e.Message);
             }
         }
+
+        private static void readFileInfo()
+        {
+            try
+            {
+                string path = Environment.CurrentDirectory;
+                string fileName = "students.txt";
+                using (var sr = new StreamReader(path + "/" + fileName))
+                {
+                    Console.WriteLine("File da duoc doc");
+                    //Console.WriteLine(sr.ReadToEnd());
+                    while (!sr.EndOfStream)
+                    {
+                        string line = sr.ReadLine();
+
+                        Console.WriteLine(line);
+                    }
+                }
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine("The file could not be read:");
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        private static async void writeFileAsync()
+        {
+            await Task.Run(() =>
+            {
+                string docPath = Environment.CurrentDirectory;
+                Console.WriteLine(docPath);
+                using (StreamWriter outputFile = new(Path.Combine(docPath, "accounts.txt")))
+                {
+                    foreach (User user in listUser)
+                    {
+                        outputFile.WriteLine($"{user.Username},{user.Password}");
+                    }
+
+                }
+                Console.WriteLine("Complete");
+            });
+        }
+
+        private static async void writeFileAsyncInfo()
+        {
+            await Task.Run(() =>
+            {
+                string docPath = Environment.CurrentDirectory;
+                Console.WriteLine(docPath);
+                using (StreamWriter outputFile = new(Path.Combine(docPath, "students.txt")))
+                {
+                    foreach (Student student in ManHinhDanhSachHS.ListStudent)
+                    {
+                        outputFile.WriteLine($"{student.Ten},{student.Lop},{student.NoiSinh},{student.Namsinh},{student.Grade}");
+
+                    }
+
+                }
+                Console.WriteLine("Complete");
+            });
+        }
+
     }
 
     class User
     {
-        public string UserName { get; set; }
-        public string Password { get; set; }
+        private string username; //bb
+        public string Username // =>aa
+        {
+            get { return username; }
+            set { username = value; }
+        }
+        private string password;
+        public string Password
+        {
+            get { return password; }
+            set { password = value; }
+        }
+        public User(string username, string password)
+        {
+            this.username = username;
+            this.password = password;
+        }
+        public User() { }
+
+        public void setUsername(string username)
+        {
+            this.username = username;
+        }
+        public string getUsername()
+        {
+            return username; // => aa
+        }
+        public void setPassword(string password)
+        {
+            this.password = password;
+        }
+        public string getPassword()
+        {
+            return password;
+        }
     }
-    class Info
+
+    class Student
     {
-        public string Name { get; set; }
-        public string Lop { get; set; }
-        public string NoiSinh { get; set; }
-        public string NgaySinh { get; set; }
-        public Double Diem { get; set; }
+        private string ten;
+        public string Ten
+        {
+            get { return ten; }
+            set { ten = value; }
+        }
+        private string lop;
+        public string Lop
+        {
+            get { return lop; }
+            set { lop = value; }
+        }
+        private string noiSinh;
+        public string NoiSinh
+        {
+            get { return noiSinh; }
+            set { noiSinh = value; }
+        }
+        private string namsinh;
+        public string Namsinh
+        {
+            get { return namsinh; }
+            set { namsinh = value; }
+        }
+        private double grade;
+        public double Grade
+        {
+            get { return grade; }
+            set { grade = value; }
+        }
+    }
+
+    static class ManHinhDanhSachHS
+    {
+        private static List<Student> listStudent = new List<Student>();
+        public static List<Student> ListStudent
+        {
+            get { return listStudent; }
+            set { listStudent = value; }
+        }
+        public static void addStudent(Student st)
+        {
+            listStudent.Add(st);
+        }
+
+        public static bool editStudent(string ten, Student student)
+        {
+            for (int i = 0; i < listStudent.Count; i++)
+            {
+                Student st = listStudent[i];
+                if (ten == st.Ten)
+                {
+                    listStudent.RemoveAt(i);
+                    listStudent.Insert(i, student);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public static bool removeStudent(string ten)
+        {
+            foreach (Student st in listStudent)
+            {
+                if (ten == st.Ten)
+                {
+                    listStudent.Remove(st);
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

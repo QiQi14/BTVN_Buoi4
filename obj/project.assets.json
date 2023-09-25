@@ -15,11 +15,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Study\\KhoaHocUnity_GU0823EHCM\\Buoi4(18-09-2023)\\NopCodeBTVN\\BTVN_Buoi4\\BTVN_Buoi4.csproj",
+      "projectUniqueName": "D:\\Study\\KhoaHocUnity_GU0823EHCM\\Buoi5(22-09-2023)\\Code\\NopCodeBTVN\\BTVN_Buoi4\\BTVN_Buoi4.csproj",
       "projectName": "BTVN_Buoi4",
-      "projectPath": "D:\\Study\\KhoaHocUnity_GU0823EHCM\\Buoi4(18-09-2023)\\NopCodeBTVN\\BTVN_Buoi4\\BTVN_Buoi4.csproj",
+      "projectPath": "D:\\Study\\KhoaHocUnity_GU0823EHCM\\Buoi5(22-09-2023)\\Code\\NopCodeBTVN\\BTVN_Buoi4\\BTVN_Buoi4.csproj",
       "packagesPath": "C:\\Users\\Portcoast\\.nuget\\packages\\",
-      "outputPath": "D:\\Study\\KhoaHocUnity_GU0823EHCM\\Buoi4(18-09-2023)\\NopCodeBTVN\\BTVN_Buoi4\\obj\\",
+      "outputPath": "D:\\Study\\KhoaHocUnity_GU0823EHCM\\Buoi5(22-09-2023)\\Code\\NopCodeBTVN\\BTVN_Buoi4\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
