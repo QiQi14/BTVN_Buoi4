@@ -4,7 +4,9 @@ using System.Runtime.CompilerServices;
 namespace BTVN_Buoi4 {
     class Program
     {
-
+        private static string path = Environment.CurrentDirectory;
+        private static string file1 = "accounts.txt";
+        private static string file2 = "hocsinh.txt";
         private static List<User> listUser;
         private static int currentScreen = 0;
         static void Main(string[] args) {
@@ -14,7 +16,7 @@ namespace BTVN_Buoi4 {
             //Lưu ý: Chương trình chỉ thoát khi người dùng chọn chức năng thoát
             listUser = new List<User>();
             int option = 0;
-
+            readFile();
             simpleUI();
 
             while (true)
@@ -161,10 +163,42 @@ namespace BTVN_Buoi4 {
                     Console.WriteLine("Diem phai la so");
                 }
             }
+            using (StreamWriter output = new(Path.Combine(path,file2)))
+            {
+                output.Write(student.Ten+":"+student.Grade);
+            }
             return student;
         }
-
-        private static void registerUI()
+        public static void readFile()
+        {
+            try
+            {
+                string path = Environment.CurrentDirectory;
+                if (File.Exists(file1))
+                {
+                   
+                    using (var sr = new StreamReader(path + "/" + file1))
+                    {
+                        Console.WriteLine(sr.ReadToEnd());
+                    }
+                }
+                if (File.Exists(file2))
+                {
+                    string fileName = "WriteTextAsync.txt";
+                    using (var sr = new StreamReader(path + "/" + file2))
+                    {
+                        Console.WriteLine(sr.ReadToEnd());
+                    }
+                }
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine("The file could not be read:");
+                Console.WriteLine(e.Message);
+            }
+        }
+    
+    private static void registerUI()
         {
             User user = new User();
             Console.WriteLine("Vui long nhap username: ");
@@ -172,7 +206,10 @@ namespace BTVN_Buoi4 {
 
             Console.WriteLine("Vuu long nhap password: ");
             user.Password = Console.ReadLine();
-
+            using (StreamWriter output = new(Path.Combine(path, file1)))
+            {
+                output.Write(user.Username + ":" + user.Password);
+            }
             listUser.Add(user); // 2 user vua nhap
         }
 
