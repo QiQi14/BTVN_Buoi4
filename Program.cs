@@ -42,19 +42,23 @@ namespace BTVN_04
             string username = Console.ReadLine();
             Console.WriteLine("Nhap password: ");
             string password = Console.ReadLine();
+            bool Correct_User = false;
             foreach (User user in list_users)
             {
                 if (user.Username == username && user.Password == password)
                 {
+                    Correct_User = true;
                     Console.WriteLine("Ban da dang nhap thanh cong");
+                    StudentUI();
                     break;
                 }
-                else
-                {
-                    Console.WriteLine("User nay khong ton tai!!!");
-                }
             }
-            StudentUI();
+            if (Correct_User == false)
+            {
+                Console.WriteLine("Dang nhap khong thanh cong!!!");
+                StartUI();
+            }
+            
         }
 
         private static void RegisterUI()
@@ -75,13 +79,15 @@ namespace BTVN_04
                     }
                     else
                     {
+                        Console.WriteLine("Dang ky thanh cong!!!");
                         User new_user = new User(username, password);
                         list_users.Add(new_user);
-
+                        break;
                     }
                 }
             }
             else {
+                Console.WriteLine("Dang ky thanh cong!!!");
                 User new_user = new User(username, password);
                 list_users.Add(new_user);
             }
@@ -124,6 +130,8 @@ namespace BTVN_04
         }
         private static void StartUI()
         {
+            Task.Delay(1000).Wait();
+            Console.Clear();
             Console.WriteLine("Moi ban chon chuc nang mong muon: ");
             Console.WriteLine("1. Dang nhap");
             Console.WriteLine("2. Dang ky");
@@ -209,6 +217,8 @@ namespace BTVN_04
         }
         private static void OptionStudentUI()
         {
+            Task.Delay(1000).Wait();
+            Console.Clear();
             Console.WriteLine("Ban co muon thuc hien chuc nang: ");
             Console.WriteLine("1. Nhap thong tin hoc sinh");
             Console.WriteLine("2. Xem thong tin hoc sinh");
@@ -220,8 +230,6 @@ namespace BTVN_04
         {
             private string username;
             private string password;
-
-
 
             public string Username { get => username; set => username = value; }
             public string Password { get => password; set => password = value; }
