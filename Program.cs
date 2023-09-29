@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 
 namespace BTVN_04
 {
@@ -7,8 +8,93 @@ namespace BTVN_04
         private static List<User> list_users = new List<User>();
         private static List<Student> list_student = new List<Student>();
 
+        public static async void writeFileAsync()
+        {
+            await Task.Run(() =>
+            {
+                string docPath = Environment.CurrentDirectory;
+                using (StreamWriter outputFile = new(Path.Combine(docPath, "accounts.txt")))
+                {
+                    foreach (var user in list_users)
+                    {
+                        outputFile.WriteLineAsync(user.Username);
+                        outputFile.WriteLineAsync(user.Password);
+                    }
+                }
+
+                using (StreamWriter outputFile = new(Path.Combine(docPath, "students.txt")))
+                {
+                    foreach (var student in list_student)
+                    {
+                        outputFile.WriteLineAsync(student.Ten_hs);
+                        outputFile.WriteLineAsync(student.Lop);
+                        outputFile.WriteLineAsync(student.Noi_sinh);
+                        outputFile.WriteLineAsync(student.Ngay_sinh);
+                        outputFile.WriteLine(student.Diem);
+                    }
+                }
+            });
+        }
+        public static List<string> readFile(string fileName)
+        {
+            List<string> list_lines = new List<string>();
+            try
+            {
+                string path = Environment.CurrentDirectory;
+                using (var sr = new StreamReader(path + "/" + fileName))
+
+                {
+                    while (!sr.EndOfStream)
+                    {
+                        //Console.WriteLine(sr.ReadLine());
+                        list_lines.Add(sr.ReadLine());
+                    }
+                }
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine("The file could not be read:");
+                Console.WriteLine(e.Message);
+            }
+
+            return list_lines;
+        }
+
         public static void Main(string[] args)
         {
+            List<string> lines_file_users = new List<string>();
+            lines_file_users  = readFile("accounts.txt");
+
+            if(lines_file_users.Count > 0)
+            {
+                for (int i = 0; i < lines_file_users.Count; i = i + 2)
+                {
+                    string username = lines_file_users[i];
+                    string passworld = lines_file_users[i + 1];
+                    User old_user = new User(username, passworld);
+                    list_users.Add(old_user);
+                }
+            }
+
+            List<string> lines_file_student = new List<string>();
+            lines_file_student = readFile("students.txt");
+
+            if(lines_file_student.Count > 0)
+            {
+                for (int i = 0; i < lines_file_student.Count; i = i + 5)
+                {
+                    string ten_hs = lines_file_student[i];
+                    string lop = lines_file_student[i + 1];
+                    string noi_sinh = lines_file_student[i + 2];
+                    string ngay_sinh = lines_file_student[i + 3];
+                    int diem = Convert.ToInt16(lines_file_student[i + 4]);
+
+
+                    Student old_student = new Student(ten_hs, lop, noi_sinh, ngay_sinh, diem);
+                    list_student.Add(old_student);
+                }
+            }
+
             int option = 0;
 
             StartUI();
@@ -82,6 +168,7 @@ namespace BTVN_04
                         Console.WriteLine("Dang ky thanh cong!!!");
                         User new_user = new User(username, password);
                         list_users.Add(new_user);
+                        writeFileAsync();
                         break;
                     }
                 }
@@ -90,6 +177,7 @@ namespace BTVN_04
                 Console.WriteLine("Dang ky thanh cong!!!");
                 User new_user = new User(username, password);
                 list_users.Add(new_user);
+                writeFileAsync();
             }
             StartUI();
         }
@@ -121,6 +209,7 @@ namespace BTVN_04
                 else if (option == 5)
                 {
                     StartUI();
+                    break;
                 }
                 else
                 {
@@ -152,7 +241,7 @@ namespace BTVN_04
             int diem = Convert.ToInt16(Console.ReadLine());
             Student new_student = new Student(ten_hs, lop, noi_sinh, ngay_sinh, diem);
             list_student.Add(new_student);
-
+            writeFileAsync();
             OptionStudentUI();
         }
 
